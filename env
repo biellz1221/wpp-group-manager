@@ -1,6 +1,0 @@
-MONGODB_URL_TEST=mongodb+srv://testDB:AFy4tcqXC2QrSiVT@cluster0.t2spf.gcp.mongodb.net/whatsappGroupDB?retryWrites=true&w=majority
-MONGODB_URL_PRODUCTION=mongodb+srv://groupmanager:ZapGr0upManager2020,@whatsapp-group-manager.wmbll.gcp.mongodb.net/whatsapp-group-manager?retryWrites=true&w=majority
-ADMIN_EMAIL=admin@admin.com
-ADMIN_PASSWORD=123abc
-
-TOKEN_SECRET=#AFy4tcqXC2QrSiVT@
