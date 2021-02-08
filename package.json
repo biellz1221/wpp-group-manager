@@ -1,0 +1,33 @@
+{
+	"name": "whatsappgroupadmin",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start"
+	},
+	"dependencies": {
+		"@chakra-ui/core": "^0.8.0",
+		"@emotion/core": "^10.0.35",
+		"@emotion/styled": "^10.0.27",
+		"axios": "^0.20.0",
+		"bcrypt": "^5.0.0",
+		"cors": "^2.8.5",
+		"emotion-theming": "^10.0.27",
+		"jsonwebtoken": "^8.5.1",
+		"mongodb": "^3.6.2",
+		"next": "9.5.4",
+		"ra-data-simple-rest": "^3.8.3",
+		"react": "16.13.1",
+		"react-admin": "^3.8.4",
+		"react-dom": "16.13.1"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^3.0.0",
+		"@types/cors": "^2.8.7",
+		"@types/jsonwebtoken": "^8.5.0",
+		"@types/mongodb": "^3.5.27",
+		"@vercel/node": "^1.8.2"
+	}
+}
