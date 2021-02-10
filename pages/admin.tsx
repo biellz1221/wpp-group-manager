@@ -1,20 +1,12 @@
 import Head from "next/head";
+import { Tabs, TabList, TabPanels, TabPanel, Tab, Flex, Link } from "@chakra-ui/core";
 import {
-	Tabs,
-	TabList,
-	TabPanels,
-	TabPanel,
-	Tab,
-	Flex,
-	Link,
-} from "@chakra-ui/core";
-import {
-	useContext,
+	//useContext,
 	useEffect,
 	createContext,
 	useState,
-	Dispatch,
-	SetStateAction,
+	//Dispatch,
+	//SetStateAction,
 } from "react";
 import axios from "axios";
 import Router from "next/router";
@@ -74,17 +66,13 @@ const Admin = () => {
 		<UserContext.Provider value={userInfo}>
 			<Head>
 				<title>Gerenciador de Grupos do Whatsapp</title>
-				<link rel="icon" href="/favicon.ico" />
+				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<Tabs
-				variant="enclosed"
-				maxWidth="1280px"
-				margin="10px auto"
-				position="relative">
-				<Flex position="absolute" right="0" top="10px">
+			<Tabs variant='enclosed' maxWidth='1280px' margin='10px auto' position='relative'>
+				<Flex position='absolute' right='0' top='10px'>
 					{userInfo.name} (
 					<Link
-						href="#"
+						href='#'
 						onClick={() => {
 							localStorage.removeItem("token");
 							Router.push("/");
@@ -99,8 +87,7 @@ const Admin = () => {
 					<Tab>Novo usuário</Tab>
 					{userInfo.teams.includes("adm") && <Tab>Novo Time</Tab>}
 				</TabList>
-				<RefreshProjects.Provider
-					value={{ refreshProjectsContext, setRefreshProjectsContext }}>
+				<RefreshProjects.Provider value={{ refreshProjectsContext, setRefreshProjectsContext }}>
 					<TabPanels>
 						<TabPanel>
 							<Projects />

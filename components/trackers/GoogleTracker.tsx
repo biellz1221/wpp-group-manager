@@ -3,10 +3,7 @@ interface IProps {
 	googleAnalyticsID: string;
 	googleAdsID: string;
 }
-export default function GoogleTracker({
-	googleAnalyticsID,
-	googleAdsID,
-}: IProps) {
+export default function GoogleTracker({ googleAnalyticsID, googleAdsID }: IProps) {
 	const scriptSrc = `https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsID}`;
 	const script = `window.dataLayer = window.dataLayer || [];
             function gtag() {
