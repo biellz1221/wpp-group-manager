@@ -21,13 +21,12 @@ export default async (req: NowRequest, res: NowResponse) => {
 
 		/*link aleatório por Projeto*/
 		if (project) {
-			const links: ILink[] = project?.links.filter(
-				(link) => link.active == true
-			);
+			const links: ILink[] = project?.links.filter((link) => link.active == true);
 
-			if (!links || links.length == 0)
-				return res.json({ message: "Nenhum link ativo neste projeto." });
-			const iRandom = Math.floor(Math.random() * links.length);
+			if (!links || links.length == 0) return res.json({ message: "Nenhum link ativo neste projeto." });
+
+			const iRandom = Math.round(Math.random() * (links.length - 0) + 0);
+
 			const link = { ...links[iRandom] };
 			const tracker = {
 				googleAnalytics: project.trackerGoogleAnalytics,
@@ -37,12 +36,8 @@ export default async (req: NowRequest, res: NowResponse) => {
 			return res.json({ ...link, tracker });
 		}
 
-		return res
-			.status(404)
-			.json({ message: `Nenhum projeto encontrado com o slug "${slug}".` });
+		return res.status(404).json({ message: `Nenhum projeto encontrado com o slug "${slug}".` });
 	} else {
-		return res
-			.status(400)
-			.json({ message: "Esta rota só aceita requisições GET" });
+		return res.status(400).json({ message: "Esta rota só aceita requisições GET" });
 	}
 };

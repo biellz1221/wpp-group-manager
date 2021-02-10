@@ -45,7 +45,7 @@ export default function RandomLink() {
 				if (error.response.data.message) {
 					setMessage(error.response.data.message);
 				} else {
-					setMessage("Erro na solicitação do link");
+					setMessage(`Erro na solicitação do link. Erro: ${error}`);
 				}
 				setLoading(false);
 			}
@@ -54,25 +54,14 @@ export default function RandomLink() {
 	if (loading)
 		return (
 			<>
-				{tracker.facebook !== "" && (
-					<FacebookTracker facebookPixelID={tracker.facebook} />
-				)}
-				{tracker.googleAnalytics !== "" && (
-					<GoogleTracker
-						googleAnalyticsID={tracker.googleAnalytics}
-						googleAdsID={tracker.googleAds}
-					/>
-				)}
+				{tracker.facebook !== "" && <FacebookTracker facebookPixelID={tracker.facebook} />}
+				{tracker.googleAnalytics !== "" && <GoogleTracker googleAnalyticsID={tracker.googleAnalytics} googleAdsID={tracker.googleAds} />}
 				<Loading />
 			</>
 		);
 	return (
-		<Flex
-			height="100vh"
-			width="100vw"
-			justifyContent="center"
-			alignItems="center">
-			<Text fontSize="lg">{message}</Text>
+		<Flex height='100vh' width='100vw' justifyContent='center' alignItems='center'>
+			<Text fontSize='lg'>{message}</Text>
 		</Flex>
 	);
 }
