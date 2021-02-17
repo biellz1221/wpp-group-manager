@@ -29,15 +29,16 @@ export default async (req: NowRequest, res: NowResponse) => {
 				const iRandom = Math.round(Math.random() * (links.length - 0) + 0);
 
 				const link = { ...links[iRandom] };
-				const tracker = {
-					googleAnalytics: project.trackerGoogleAnalytics,
-					googleAds: project.trackerGoogleAds,
-					facebook: project.trackerFacebook,
-				};
-				return res.json({ ...link, tracker });
+				// const tracker = {
+				// 	googleAnalytics: project.trackerGoogleAnalytics,
+				// 	googleAds: project.trackerGoogleAds,
+				// 	facebook: project.trackerFacebook,
+				// };
+				return res.json({ ...link });
 			}
 			return res.status(404).json({ message: `Nenhum projeto encontrado com o slug "${slug}".` });
 		} catch (error) {
+			console.error(error);
 			return res.status(400).json({ error });
 		}
 	} else {
