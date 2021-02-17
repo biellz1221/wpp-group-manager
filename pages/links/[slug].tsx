@@ -49,6 +49,7 @@ export default function RandomLink() {
 				} else {
 					setMessage(`Erro na solicitação do link. Erro: ${error}`);
 				}
+				window.location.reload();
 				setLoading(false);
 			}
 		}

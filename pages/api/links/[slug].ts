@@ -39,7 +39,6 @@ export default async (req: NowRequest, res: NowResponse) => {
 			return res.status(404).json({ message: `Nenhum projeto encontrado com o slug "${slug}".` });
 		} catch (error) {
 			console.error(error);
-			window.location.reload();
 			return res.status(400).json({ error });
 		}
 	} else {
