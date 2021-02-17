@@ -43,13 +43,14 @@ export default function RandomLink() {
 					}
 				}
 			} catch (error) {
+				alert(error);
+				window.location.reload();
 				if (error.response.data.message) {
 					console.error(error.response.data.message);
 					setMessage(error.response.data.message);
 				} else {
 					setMessage(`Erro na solicitação do link. Erro: ${error}`);
 				}
-				window.location.reload();
 				setLoading(false);
 			}
 		}
