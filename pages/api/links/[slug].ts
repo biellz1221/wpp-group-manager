@@ -26,9 +26,9 @@ export default async (req: NowRequest, res: NowResponse) => {
 
 				if (!links || links.length == 0) return res.json({ message: "Nenhum link ativo neste projeto." });
 
-				const iRandom = Math.round(Math.random() * (links.length - 0) + 0);
+				const iRandom = Math.floor(Math.random() * links.length);
 
-				const link = { ...links[iRandom] };
+				const link = { ...links[iRandom >= links.length ? links.length - 1 : iRandom] };
 				// const tracker = {
 				// 	googleAnalytics: project.trackerGoogleAnalytics,
 				// 	googleAds: project.trackerGoogleAds,
