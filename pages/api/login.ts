@@ -17,8 +17,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 	const { email, password } = req.body;
 	if (!email || !password)
 		return res.status(403).json({
-			message:
-				"Por favor, entre com seu email e senha cadastrado na plataforma",
+			message: "Por favor, entre com seu email e senha cadastrado na plataforma",
 		});
 
 	const db = await connectToDatabase();
@@ -39,8 +38,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 			password: hash,
 			teams: ["adm"],
 		});
-		if (password !== process.env.ADMIN_PASSWORD)
-			return res.status(403).json({ message: "Senha incorreta" });
+		if (password !== process.env.ADMIN_PASSWORD) return res.status(403).json({ message: "Senha incorreta" });
 
 		const id = ops[0]["_id"];
 		const token = jwt.sign({ id }, process.env.TOKEN_SECRET as string);
@@ -50,8 +48,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 
 	if (!user) return res.status(403).json({ message: "Email não cadastrado" });
 
-	if (!(await bcrypt.compare(password, user.password)))
-		return res.status(403).json({ message: "Senha incorreta" });
+	if (!(await bcrypt.compare(password, user.password))) return res.status(403).json({ message: "Senha incorreta" });
 
 	const id = user["_id"];
 	const token = jwt.sign({ id }, process.env.TOKEN_SECRET as string);

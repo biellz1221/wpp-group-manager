@@ -35,6 +35,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 	await cors(req, res);
 
 	const token = req.headers.authorization;
+
 	if (!token) return res.status(403).json({ message: "Token não informada no cabeçalho" });
 	try {
 		const { id }: any = await jwt.verify(token, process.env.TOKEN_SECRET as string);
@@ -42,7 +43,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 		const db = await connectToDatabase();
 		const usersCollection = db.collection("users");
 		const user = await usersCollection.findOne({ _id }, { projection: { name: true, teams: true } });
-		if (!user) return res.status(403).json({ message: "Token inválida" });
+		if (!user) return res.status(403).json({ message: "Token inválida", token, tokenSecret: process.env.TOKEN_SECRET, id });
 
 		const projectsCollection = db.collection("projects");
 		if (req.method == "GET") {
@@ -144,7 +145,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 			}
 		}
 	} catch (err) {
-		console.error(err);
+		console.error("error:", err);
 		return res.status(400).json(err);
 	}
 };

@@ -22,11 +22,12 @@ export default function Projects() {
 	const [message, setMessage] = useState("");
 	const [projects, setProjects] = useState([] as IProject[]);
 	const [selectedProject, setSelectedProject] = useState({} as IProject);
-	const { token } = useContext(UserContext);
+	const token = localStorage.getItem("token");
 	const { refreshProjectsContext, setRefreshProjectsContext } = useContext(RefreshProjects);
 	const [messagesArray, setMessagesArray] = useState([] as string[]);
 
 	async function handleSubmitNewProject(event) {
+		//alert("teste");
 		event.preventDefault();
 		const form = event.target;
 		const name = form.name.value;
@@ -35,7 +36,9 @@ export default function Projects() {
 		const trackerGoogleAds = form.trackerGoogleAds.value;
 		const trackerFacebook = form.trackerFacebook.value;
 		const team = form.team.value;
+
 		try {
+			alert(token);
 			const { data } = await axios.post(
 				"/api/projects",
 				{
@@ -54,13 +57,15 @@ export default function Projects() {
 				setRefreshProjectsContext(!refreshProjectsContext);
 			}
 		} catch (error) {
-			if (error.response)
+			if (error.response) {
+				console.error(error.response);
 				if (error.response.data.code == 11000) {
 					setMessage(`Projeto com o nome ${name} já está cadastrado, utilize outro nome de projeto`);
 					form.name.value = "";
 				} else {
 					setMessage(`${error.response}`);
 				}
+			}
 		}
 	}
 
