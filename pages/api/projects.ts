@@ -43,7 +43,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 		const db = await connectToDatabase();
 		const usersCollection = db.collection("users");
 		const user = await usersCollection.findOne({ _id }, { projection: { name: true, teams: true } });
-		if (!user) return res.status(403).json({ message: "Token inválida", token, tokenSecret: process.env.TOKEN_SECRET, id });
+		if (!user) return res.status(403).json({ message: "Token inválida" });
 
 		const projectsCollection = db.collection("projects");
 		if (req.method == "GET") {
