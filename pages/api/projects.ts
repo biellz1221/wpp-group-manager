@@ -35,22 +35,13 @@ export default async (req: NowRequest, res: NowResponse) => {
 	await cors(req, res);
 
 	const token = req.headers.authorization;
-	if (!token)
-		return res
-			.status(403)
-			.json({ message: "Token não informada no cabeçalho" });
+	if (!token) return res.status(403).json({ message: "Token não informada no cabeçalho" });
 	try {
-		const { id }: any = await jwt.verify(
-			token,
-			process.env.TOKEN_SECRET as string
-		);
+		const { id }: any = await jwt.verify(token, process.env.TOKEN_SECRET as string);
 		const _id = new ObjectId(id);
 		const db = await connectToDatabase();
 		const usersCollection = db.collection("users");
-		const user = await usersCollection.findOne(
-			{ _id },
-			{ projection: { name: true, teams: true } }
-		);
+		const user = await usersCollection.findOne({ _id }, { projection: { name: true, teams: true } });
 		if (!user) return res.status(403).json({ message: "Token inválida" });
 
 		const projectsCollection = db.collection("projects");
@@ -58,8 +49,7 @@ export default async (req: NowRequest, res: NowResponse) => {
 			if (req.body.id) {
 				if (!ObjectId.isValid(req.body.id))
 					return res.status(400).json({
-						message:
-							"O id precisa ser uma número hexadecimal com 24 caracteres.",
+						message: "O id precisa ser uma número hexadecimal com 24 caracteres.",
 					});
 				const project = await projectsCollection.findOne({
 					_id: new ObjectId(req.body.id),
@@ -71,22 +61,13 @@ export default async (req: NowRequest, res: NowResponse) => {
 				const id = project._id.toHexString();
 				const serializedProject = { id, ...project };
 				delete serializedProject["_id"];
-				if (user.teams?.includes(serializedProject.team || "adm"))
-					projects.push(serializedProject);
+				if (user.teams?.includes(serializedProject.team || "adm")) projects.push(serializedProject);
 			});
 
 			return res.json(projects);
 		}
 
-		const {
-			name,
-			description,
-			links,
-			trackerGoogleAnalytics,
-			trackerGoogleAds,
-			trackerFacebook,
-			team,
-		} = req.body;
+		const { name, description, links, trackerGoogleAnalytics, trackerGoogleAds, trackerFacebook, team } = req.body;
 
 		const currentTeams = [] as string[];
 		await db
@@ -99,15 +80,11 @@ export default async (req: NowRequest, res: NowResponse) => {
 		if (req.method == "POST") {
 			const slug = stringToSlug(name);
 			const serializedTeam = stringToSlug(team);
-			if (!currentTeams.includes(serializedTeam))
-				return res
-					.status(400)
-					.json({ message: `O time ${serializedTeam} não está cadastrado.` });
+			if (!currentTeams.includes(serializedTeam)) return res.status(400).json({ message: `O time ${serializedTeam} não está cadastrado.` });
 
 			if (!user.teams.includes(serializedTeam || "adm"))
 				return res.status(403).json({
-					message:
-						"Usuário só pode criar projetos no time em que está cadastrado.",
+					message: "Usuário só pode criar projetos no time em que está cadastrado.",
 				});
 
 			const { ops } = await projectsCollection.insertOne({
@@ -132,20 +109,15 @@ export default async (req: NowRequest, res: NowResponse) => {
 			const _id = new ObjectId(req.body.id);
 			if (!ObjectId.isValid(id))
 				return res.status(400).json({
-					message:
-						"O projectID precisa ser uma número hexadecimal com 24 caracteres.",
+					message: "O projectID precisa ser uma número hexadecimal com 24 caracteres.",
 				});
 			const slug = stringToSlug(name);
 			const serializedTeam = stringToSlug(team);
-			if (!currentTeams.includes(serializedTeam))
-				return res
-					.status(400)
-					.json({ message: `O time ${serializedTeam} não está cadastrado.` });
+			if (!currentTeams.includes(serializedTeam)) return res.status(400).json({ message: `O time ${serializedTeam} não está cadastrado.` });
 
 			if (!user.teams.includes(serializedTeam || "adm"))
 				return res.status(403).json({
-					message:
-						"Usuário só pode alterar projetos no time em que está cadastrado.",
+					message: "Usuário só pode alterar projetos no time em que está cadastrado.",
 				});
 
 			const serializedLinks = links.map((link) => {
@@ -162,14 +134,10 @@ export default async (req: NowRequest, res: NowResponse) => {
 				links: serializedLinks,
 				team: serializedTeam,
 			};
-			const { result } = await projectsCollection.updateOne(
-				{ _id },
-				{ $set: updateObject }
-			);
+			const { result } = await projectsCollection.updateOne({ _id }, { $set: updateObject });
 
 			if (result.ok == 1) {
-				if (result.nModified > 0)
-					return res.json({ message: "Projeto atualizado com sucesso" });
+				if (result.nModified > 0) return res.json({ message: "Projeto atualizado com sucesso" });
 				return res.json({
 					message: "Nenhuma alteração a ser salva neste projeto.",
 				});
