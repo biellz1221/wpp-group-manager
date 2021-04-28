@@ -38,7 +38,7 @@ export default function Projects() {
 		const team = form.team.value;
 
 		try {
-			alert(token);
+			//alert(token);
 			const { data } = await axios.post(
 				"/api/projects",
 				{
